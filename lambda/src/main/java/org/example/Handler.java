@@ -26,31 +26,31 @@ public class Handler implements RequestHandler<S3Event, String> {
 
         try {
 
-            logger.log("Event registred in "  + request.getRecords().getFirst().getS3().getBucket().getName());
+            logger.log("Event registered in " + request.getRecords().getFirst().getS3().getBucket().getName());
 
-            for (S3EventNotification.S3EventNotificationRecord record : request.getRecords()){
+            for (S3EventNotification.S3EventNotificationRecord record : request.getRecords()) {
 
                 var sourceBucket = record.getS3().getBucket().getName();
                 var objectName = record.getS3().getObject().getUrlDecodedKey();
 
-                var destionationBucketName = "destionation-bucket-gkowalski";
+                var destinationBucketName = "destionation-bucket-gkowalski";
                 var finalFileName = changeName(objectName);
                 var destinationBucketPath = "lambda-worked/" + finalFileName;
 
                 CopyObjectRequest copyObjectRequest = CopyObjectRequest.builder()
                         .sourceBucket(sourceBucket)
                         .sourceKey(objectName)
-                        .destinationBucket(destionationBucketName)
+                        .destinationBucket(destinationBucketName)
                         .destinationKey(destinationBucketPath)
                         .build();
 
                 s3Client.copyObject(copyObjectRequest);
 
-                logger.log("Object upload in " + destionationBucketName + "named: " + finalFileName);
+                logger.log("Object uploaded in " + destinationBucketName + " named: " + finalFileName);
             }
 
-            } catch (RuntimeException e) {
-                throw new RuntimeException(e);
+        } catch (RuntimeException e) {
+            throw e;
         }
 
             return "Process worked finished at " + LocalDateTime.now();
