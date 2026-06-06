@@ -21,12 +21,6 @@
         <!-- AWS SDK -->
         <dependency>
             <groupId>software.amazon.awssdk</groupId>
-            <artifactId>aws-sdk-java</artifactId>
-            <version>2.46.2</version>
-        </dependency>
-
-        <dependency>
-            <groupId>software.amazon.awssdk</groupId>
             <artifactId>s3</artifactId>
             <version>2.25.25</version> </dependency>
 
@@ -71,6 +65,12 @@
         </dependency>
         <!-- JACKSON -->
 
+        <dependency>
+            <groupId>software.amazon.awssdk</groupId>
+            <artifactId>url-connection-client</artifactId>
+            <version>2.25.25</version>
+        </dependency>
+
         <!-- UNIT TESTS -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
@@ -113,7 +113,6 @@
                                 <exclude>module-info.class</exclude>
                                 <exclude>META-INF/*</exclude>
                                 <exclude>META-INF/versions/**</exclude>
-                                <exclude>META-INF/services/**</exclude>
                             </excludes>
                         </filter>
                     </filters>
