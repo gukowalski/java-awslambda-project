@@ -1,5 +1,18 @@
-*/.terraform
-*/.jar
+
+.terraform/
+*.tfstate
+*.tfstate.*
+.terraform.lock.hcl
+*.tfvars.json
+
+
+### --- JAVA (Artefatos de Build) --- ###
+# Ignora o JAR em qualquer lugar do projeto
+*.jar
+# Ignora as pastas de build padrão do Maven e Gradle
+target/
+build/
+out/
 
 HELP.md
 target/
