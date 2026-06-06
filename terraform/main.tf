@@ -53,42 +53,11 @@ resource "aws_iam_policy" "lambda_s3_policy" {
   })
 }
 
-# resource "aws_iam_policy" "lambda_s3_policy_1" {
-#   name = "lambda-s3-policy"
-
-#   policy = jsonencode({
-#     "Version": "2012-10-17",
-#     "Statement": [
-#         {
-#             "Effect": "Allow",
-#             "Action": "logs:CreateLogGroup",
-#             "Resource": "arn:aws:logs:us-east-1:321824335717:*"
-#         },
-#         {
-#             "Effect": "Allow",
-#             "Action": [
-#                 "logs:CreateLogStream",
-#                 "logs:PutLogEvents"
-#             ],
-#             "Resource": [
-#                 "arn:aws:logs:us-east-1:321824335717:log-group:/aws/lambda/primeiraFuncao:*"
-#             ]
-#         }
-#     ]
-# })
-# }
-
 resource "aws_iam_role_policy_attachment" "lambda_s3_attach" {
   role       = aws_iam_role.lambda_role.name
   policy_arn = aws_iam_policy.lambda_s3_policy.arn
 }
 
-# resource "aws_iam_role_policy_attachment" "lambda_s3_attach" {
-#   role       = aws_iam_role.lambda_role.name
-#   policy_arn = aws_iam_policy.lambda_s3_policy.arn
-# }
-
-# 3. A FUNÇÃO LAMBDA
 resource "aws_lambda_function" "lambda_function" {
   s3_bucket     = "lambda-bucket-gkowalski"
   s3_key        = "aws-lambda-java-starter-example-0.0.1.jar"
@@ -100,7 +69,6 @@ resource "aws_lambda_function" "lambda_function" {
 
 }
 
-# 1. Permissão para o S3 invocar a Lambda
 resource "aws_lambda_permission" "allow_s3" {
   statement_id  = "AllowExecutionFromS3Bucket"
   action        = "lambda:InvokeFunction"
@@ -109,7 +77,6 @@ resource "aws_lambda_permission" "allow_s3" {
   source_arn    = aws_s3_bucket.bucket_origem.arn # ARN do bucket de origem
 }
 
-# 2. Configuração do Trigger de Notificação no S3
 resource "aws_s3_bucket_notification" "trigger_s3" {
   bucket = aws_s3_bucket.bucket_origem.id # ID do seu bucket de origem
 
@@ -122,6 +89,5 @@ resource "aws_s3_bucket_notification" "trigger_s3" {
     ]
   }
 
-  # IMPORTANTE: Garanta que o gatilho só seja criado DEPOIS que a Lambda já tiver a permissão
   depends_on = [aws_lambda_permission.allow_s3]
 }
