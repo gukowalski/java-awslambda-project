@@ -37,8 +37,6 @@ public class Handler implements RequestHandler<S3Event, String> {
                 var finalFileName = changeName(objectName);
                 var destinationBucketPath = "lambda-worked/" + finalFileName;
 
-                var fileNameChanged = changeSourceName(objectName);
-
                 CopyObjectRequest copyObjectRequest = CopyObjectRequest.builder()
                         .sourceBucket(sourceBucket)
                         .sourceKey(objectName)
@@ -60,10 +58,6 @@ public class Handler implements RequestHandler<S3Event, String> {
 
         private String changeName(String sourceName){
             return sourceName + LocalDateTime.now();
-        }
-
-        private String changeSourceName(String sourceName){
-            return sourceName + "sucess";
         }
 
 }
