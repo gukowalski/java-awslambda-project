@@ -10,7 +10,6 @@ resource "aws_s3_bucket" "bucket_destino" {
   bucket = "destionation-bucket-gkowalski"
 }
 
-# 2. PERMISSÕES (IAM ROLE) DA LAMBDA
 resource "aws_iam_role" "lambda_role" {
   name = "role-lambda-s3-renamer"
 
@@ -30,10 +29,16 @@ resource "aws_iam_policy" "lambda_s3_policy" {
 
   policy = jsonencode({
     Version = "2012-10-17"
-    Statement = [{
-      Effect   = "Allow"
-      Action   = ["s3:PutObject", "s3:GetObject"]
-      Resource = ["arn:aws:s3:::destionation-bucket-gkowalski/*", "arn:aws:s3:::source-bucket-gkowalski/*"]
+    Statement = [
+      {
+        Effect   = "Allow"
+        Action   = ["s3:GetObject"]
+        Resource = ["arn:aws:s3:::source-bucket-gkowalski/*"]
+      },
+      {
+        Effect   = "Allow"
+        Action   = ["s3:PutObject"]
+        Resource = ["arn:aws:s3:::destionation-bucket-gkowalski/*"]
       },
       {
         "Effect" : "Allow",
